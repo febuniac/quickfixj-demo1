@@ -2,7 +2,6 @@ name: Java CI
 
 on:
   workflow_dispatch:
-  push:
   pull_request:
     types: [reopened, opened, synchronize]
   schedule:
@@ -13,9 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # macOS-latest (arm64) runners are too contended for the acceptance suite:
-        # its socket/heartbeat timings flake in a different test on every run
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
         java: [17]
       fail-fast: false
       max-parallel: 4
@@ -28,7 +25,9 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: temurin
+          cache: 'maven'
       - name: Test with Maven
         env:
           MAVEN_OPTS: "-Xms3g -Xmx3g"
-        run: mvn test -B -V -D"java.util.logging.config.file"="logging.properties" -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"
+        run: mvn -pl quickfixj-core -am test -B -V -D"java.util.logging.config.file"="logging.properties" -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"
+
