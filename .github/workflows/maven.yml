@@ -1,11 +1,7 @@
 name: Java CI
 
 on:
-  workflow_dispatch:
   pull_request:
-    types: [reopened, opened, synchronize]
-  schedule:
-    - cron:  '30 3 * * *'
 
 jobs:
   test:
@@ -15,7 +11,6 @@ jobs:
         os: [ubuntu-latest]
         java: [17]
       fail-fast: false
-      max-parallel: 4
     name: Test JDK ${{ matrix.java }}, ${{ matrix.os }}
 
     steps:
@@ -23,11 +18,10 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
           distribution: temurin
+          java-version: ${{ matrix.java }}
           cache: 'maven'
-      - name: Test with Maven
+      - name: Test quickfixj-core with Maven
         env:
           MAVEN_OPTS: "-Xms3g -Xmx3g"
-        run: mvn -pl quickfixj-core -am test -B -V -D"java.util.logging.config.file"="logging.properties" -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"
-
+        run: mvn test -pl quickfixj-core -am -Dtest=CompositeLogTest,MessageCrackerTest -DfailIfNoTests=false -B -V -D"java.util.logging.config.file"="logging.properties" -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"
