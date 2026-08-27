@@ -16,6 +16,7 @@
     <properties>
         <acceptance.tests>**/AcceptanceTestSuite.java</acceptance.tests>
         <mainClass>org.quickfixj.Version</mainClass>
+        <jdkLevel>17</jdkLevel>
     </properties>
 
     <dependencies>
@@ -198,6 +199,15 @@
         </testResources>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${jdkLevel}</release>
+                    <source combine.self="remove" />
+                    <target combine.self="remove" />
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.quickfixj</groupId>
                 <artifactId>quickfixj-codegenerator</artifactId>
@@ -394,7 +404,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>-Xmx512m -Djava.net.preferIPv4Stack=true</argLine>
+                    <argLine>-Xmx512m -Djava.net.preferIPv4Stack=true --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
                     <trimStackTrace>false</trimStackTrace>
                     <includes>
                         <include>**/*Test.java</include>
