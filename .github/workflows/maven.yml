@@ -25,7 +25,9 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: temurin
+          cache: 'maven'
       - name: Test with Maven
         env:
           MAVEN_OPTS: "-Xms3g -Xmx3g"
         run: mvn -pl quickfixj-core -am test -B -V -D"java.util.logging.config.file"="logging.properties" -D"http.keepAlive"="false" -D"maven.wagon.http.pool"="false" -D"maven.wagon.httpconnectionManager.ttlSeconds"="120"
+
