@@ -68,7 +68,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<jdkLevel>1.8</jdkLevel>
+		<jdkLevel>17</jdkLevel>
 		<slf4j.version>1.7.30</slf4j.version>
 		<junit.version>4.13.1</junit.version>
 		<mainClass />
@@ -108,8 +108,7 @@
 					<version>${maven-compiler-plugin-version}</version>
 					<inherited>true</inherited>
 					<configuration>
-						<source>${jdkLevel}</source>
-						<target>${jdkLevel}</target>
+						<release>${jdkLevel}</release>
 						<meminitial>2g</meminitial>
 						<maxmem>4g</maxmem>
 					</configuration>
